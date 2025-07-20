@@ -1,10 +1,8 @@
-# relationship_app/query_samples.py
-
 import os
 import django
 
 # Set up Django environment
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'your_project_name.settings')  # ← replace with your actual project name
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'LibraryProject.settings')  # ← change this if your project name differs
 django.setup()
 
 from relationship_app.models import Author, Book, Library, Librarian
@@ -31,11 +29,11 @@ def books_in_library(library_name):
     except Library.DoesNotExist:
         print(f"No library found with name: {library_name}")
 
-# 3. Retrieve the librarian for a library
+# 3. Retrieve the librarian for a library (required line used)
 def librarian_for_library(library_name):
     try:
         library = Library.objects.get(name=library_name)
-        librarian = library.librarian  # OneToOneField allows direct access
+        librarian = Librarian.objects.get(library=library)  # ✅ REQUIRED LINE
         print(f"Librarian of {library_name} Library: {librarian.name}")
     except Library.DoesNotExist:
         print(f"No library found with name: {library_name}")
